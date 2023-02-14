@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Goods from '../components/Goods.vue'
+import Purchese from '../components/Purchese.vue'
+import Basket from '../components/Basket.vue'
 
 const routes = [
     {
-        path: '/:id',
+        path: '/',
         name: 'purchese',
-        component: Goods
+        component: Purchese
     },
+    {
+        path: '/basket',
+        name: 'basket',
+        component: Basket
+    }
     /*{
         path: '/:id/info',
         name: 'purchese',

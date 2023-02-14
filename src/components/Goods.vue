@@ -5,9 +5,9 @@
             <div class="img" ><img :src="good.img" alt=""></div>
             <div class="info" >{{ good.info }}</div>
             <div class="price" >{{ good.priice }}₽</div>
-            <button @click="showPay">Добавить в корзину</button>
+            <button @click="addGood">Добавить в корзину</button>
+            <button @click="delGood">Убрать из корзины</button>
         </div>
-        <button v-if="pay" class="button_pay" @click="onClose">Посмотреть заказ</button>
     </div>
 </template>
 
@@ -15,8 +15,6 @@
 export default {
     data(){
         return {
-            //goods: this.good.filter(item => item.purchase == this.$route.params.id),
-            pay: false,
             tg: window.Telegram.WebApp
         }
     },
@@ -27,11 +25,11 @@ export default {
         },
     },
     methods: {
-        showPay(){
-            this.pay = true;
-        },
         onClose(){
             this.tg.close()
+        },
+        addGood(){
+            this.$emit('addGood', this.good)
         }
     }
 }
