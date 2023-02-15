@@ -5,12 +5,12 @@
             :good="good"
             :key="good.id"
             @addGood="addGoods"
+            @showGoodInfo="showGoodInfo"
         />
     </div>
     <router-link to="/basket">
         <button class="button_pay" v-if="pay">Корзина</button>
     </router-link>
-
 </template>
 
 <script>

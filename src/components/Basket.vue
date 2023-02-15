@@ -4,11 +4,12 @@
             v-for="good in goods"
             :good="good"
             :key="good.id"
-            @addGood="addGoods"
+            @delGood="delGoods"
+            @showGoodInfo="showGoodInfo"
+            :isBasket="isBasket"
         />
         <button class="button_pay">Оформить заказ</button>
     </div>
-
 </template>
 
 <script>
@@ -19,13 +20,22 @@ export default {
     data(){
         return{
             goods: [],
+            isBasket: true,
         }
+    },
+    methods: {
+        delGoods(good){
+            this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== good.id)
+            this.goods = this.$store.state.basket
+            if(this.goods.length == 0){
+                this.$router.replace({name: 'purchese'})
+            }
+        },
     },
     mounted(){
         for(let good of this.$store.state.basket){
             this.goods.push(good)
         }
-        console.log(this.goods)
     }
 }
 </script>

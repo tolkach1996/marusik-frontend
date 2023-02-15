@@ -1,21 +1,26 @@
 <template>
     <div class="main">
-        <div class="good">
+        <div class="good" @click="showGoodInfo">
             <div class="name" >{{ good.name }}</div>
             <div class="img" ><img :src="good.img" alt=""></div>
             <div class="info" >{{ good.info }}</div>
             <div class="price" >{{ good.priice }}₽</div>
-            <button @click="addGood">Добавить в корзину</button>
-            <button @click="delGood">Убрать из корзины</button>
         </div>
+        <button @click="delGood" v-if="isBasket">Убрать из корзины</button>
+        <button @click="addGood" v-else>Добавить в корзину</button>
     </div>
+    <GoodInfo v-model:show="goodsInfo" :good="this.good" ></GoodInfo>
 </template>
 
 <script>
+import GoodInfo from './GoodInfo.vue';
+
 export default {
+    components:{GoodInfo},
     data(){
         return {
-            tg: window.Telegram.WebApp
+            tg: window.Telegram.WebApp,
+            goodsInfo : false
         }
     },
     props: {
@@ -23,6 +28,10 @@ export default {
             type: Array,
             required: true,
         },
+        isBasket:{
+            type: Boolean,
+            required: true,
+        }
     },
     methods: {
         onClose(){
@@ -30,6 +39,15 @@ export default {
         },
         addGood(){
             this.$emit('addGood', this.good)
+        },
+        delGood(){
+            this.$emit('delGood', this.good)
+        },
+        showGoodInfo(){
+            this.$emit('showGoodInfo', true)
+        },
+        showGoodInfo(){
+            this.goodsInfo = !this.goodsInfo
         }
     }
 }
@@ -45,6 +63,7 @@ export default {
     max-height: 600px;
     max-width: 400px;
     padding: 10px;
+    cursor: pointer;
 }
 .name{
     width: 100%;
