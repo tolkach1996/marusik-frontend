@@ -1,13 +1,11 @@
 <template>
     <div class="main">
-        <router-link :to="'/product/'+good.id">
-            <div class="good">
-                <div class="name" >{{ good.name }}</div>
-                <div class="img" ><img :src="good.img[0].src" alt=""></div>
-                <div class="info" >{{ good.info }}</div>
-                <div class="price" >{{ good.priice }}₽</div>
-            </div>
-        </router-link>
+        <div class="good" @click="goodInfo" >
+            <div class="name" >{{ good.name }}</div>
+            <div class="img" ><img :src="good.img[0].src" alt=""></div>
+            <div class="info" >{{ good.info }}</div>
+            <div class="price" >{{ good.priice }}₽</div>
+        </div>
         <AddDelButton
         @addGood="addGood"
         @delGood="delGood"
@@ -47,6 +45,10 @@ export default {
         },
         delGood(){
             this.$emit('delGood', this.good)
+        },
+        goodInfo(){
+            this.$store.state.goodForInfo = this.good
+            this.$router.replace({name: 'info'})
         }
     }
 }

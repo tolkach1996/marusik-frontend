@@ -5,7 +5,7 @@
             :good="good"
             :key="good.id"
             @addGood="addGoods"
-            @showGoodInfo="showGoodInfo"
+            @delGood="delGood"
         />
     </div>
     <router-link to="/basket">
@@ -28,13 +28,29 @@ export default {
     },
     methods: {
         addGoods(good){
-            this.$store.state.basket.push(good)
+            if(this.$store.state.basket.find(item => item.id == good.id)){
+                for (let item of this.$store.state.basket){
+                    if(item.id == good.id){
+                        item.countBasket +=1
+                    }
+                }
+            }
+            else{
+                good.countBasket += 1
+                this.$store.state.basket.push(good)
+            }
             this.pay = true
+        },
+        delGood(good){
+            good.countBasket -= 1
+            if(good.countBasket == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== good.id)
+            if(!this.$store.state.basket[0]) this.pay = false
         }
     },
-    //mounted(){
-    //    console.log(this.basket)
-    //}
+    mounted(){
+        if(!this.$store.state.basket[0]) this.pay = false
+        else this.pay = true
+    }
 }
 </script>
 

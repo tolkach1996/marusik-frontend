@@ -8,7 +8,7 @@
             @showGoodInfo="showGoodInfo"
             :isBasket="isBasket"
         />
-        <button class="button_pay">Оформить заказ</button>
+    <button class="button_pay">Оформить заказ</button>
     </div>
 </template>
 
@@ -25,6 +25,7 @@ export default {
     },
     methods: {
         delGoods(good){
+            good.countBasket = 0
             this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== good.id)
             this.goods = this.$store.state.basket
             if(this.goods.length == 0){
@@ -44,7 +45,6 @@ export default {
 .basket{
     display: flex;
     flex-direction: row;
-    text-align: center;
     max-width: 850px;
     flex-wrap: wrap;
 }
