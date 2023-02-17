@@ -54,36 +54,42 @@ export default {
 </script>
 
 <style scoped>
+.main{
+    width: 48%;
+}
 .good{
     display: flex;
     flex-direction: column;
     border: 1px solid var(--tg-theme-button-color);
     border-radius: 10px;
     max-height: 600px;
-    max-width: 400px;
-    padding: 10px;
+    width: 100%;
     cursor: pointer;
+    margin: 3px;
 }
 .name{
     width: 100%;
     height: 100%;
     margin-bottom: 10px;
+    color: var(--tg-theme-text-color);
 }
 .img{
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    height: 180px;
     margin-bottom: 10px;
 }
 .info{
     width: 100%;
     height: 100%;
     margin-bottom: 10px;
+    color: var(--tg-theme-text-color);
 }
 .price{
     width: 100%;
     height: 100%;
     margin-bottom: 10px;
     font-weight: bold;
+    color: var(--tg-theme-text-color);
 }
 img{
     max-width: 100%;

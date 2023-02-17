@@ -1,21 +1,27 @@
 <template>
     <div class="main">
-        <div class="good" @click="goodInfo" >
-            <div class="name" >{{ good.name }}</div>
-            <div class="img" ><img :src="good.img[0].src" alt=""></div>
-            <div class="info" >{{ good.info }}</div>
-            <div class="price" >{{ good.priice }}₽</div>
+        <router-link :to="'/product/'+good.id">
+        <div class="main_content">
+            <div class="img">
+                <img :src="good.img[0].src" alt="">
+            </div>
+            <div class="content">
+                <div class="content_price">{{ good.priice }}₽</div>
+                <div class="content_name"> <b> {{ good.name }}</b></div>
+                <div class="content_name">{{ good.info }}</div>
+            </div>
         </div>
+        </router-link>
         <AddDelButton
         @addGood="addGood"
         @delGood="delGood"
-        :isBasket="isBasket"
         :good="good"
         />
     </div>
 </template>
 
 <script>
+
 import GoodInfo from './GoodInfo.vue'
 import AddDelButton from './AddDelButton.vue'
 
@@ -37,9 +43,6 @@ export default {
         }
     },
     methods: {
-        onClose(){
-            this.tg.close()
-        },
         addGood(){
             this.$emit('addGood', this.good)
         },
@@ -56,6 +59,43 @@ export default {
 </script>
 
 <style scoped>
+.main{
+    width: 375px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.main_content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+}
+.content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    color: var(--tg-theme-text-color);
+}
+.img{
+    min-width: 120px;
+    min-height: 100%;
+    max-width: 120px;
+    max-height: 100%;
+    margin-right: 20px;
+}
+img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+</style>
+
+<!--
+
 .good{
     display: flex;
     flex-direction: column;
@@ -71,11 +111,7 @@ export default {
     height: 100%;
     margin-bottom: 10px;
 }
-.img{
-    width: 400px;
-    height: 400px;
-    margin-bottom: 10px;
-}
+
 .info{
     width: 100%;
     height: 100%;
@@ -88,13 +124,31 @@ export default {
     font-weight: bold;
 }
 img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+img{
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
 }
-</style>
 
-<!--<style lang="scss" scoped>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style lang="scss" scoped>
 <style scoped>
 .main{
     width: 100%;

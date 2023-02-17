@@ -1,22 +1,32 @@
 <template>
     <div class="basket">
-        <Goods
+        <GoodsBasket
             v-for="good in goods"
             :good="good"
             :key="good.id"
+            @addGood="addGoods"
             @delGood="delGoods"
             @showGoodInfo="showGoodInfo"
-            :isBasket="isBasket"
         />
-    <button class="button_pay">Оформить заказ</button>
+        <div class="button">
+            <router-link to="/">
+                <button class="button_back">Назад</button>
+            </router-link>
+            <button class="button_pay" @click="onClose">Оформить заказ</button>
+        </div>
+
+
+
+
     </div>
 </template>
 
 <script>
+import GoodsBasket from './GoodsBasket.vue'
 import Goods from './Goods.vue'
 
 export default {
-    components:{Goods},
+    components:{Goods, GoodsBasket},
     data(){
         return{
             goods: [],
@@ -24,10 +34,31 @@ export default {
         }
     },
     methods: {
+        onClose(){
+            this.tg.close()
+        },
+        addGoods(good){
+            if(this.$store.state.basket.find(item => item.id == good.id)){
+                for (let item of this.$store.state.basket){
+                    if(item.id == good.id){
+                        item.countBasket +=1
+                    }
+                }
+            }
+            else{
+                good.countBasket += 1
+                this.$store.state.basket.push(good)
+            }
+            this.pay = true
+        },
         delGoods(good){
-            good.countBasket = 0
-            this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== good.id)
-            this.goods = this.$store.state.basket
+            good.countBasket -= 1
+            if(good.countBasket == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== good.id)
+            this.goods = [];
+            for(let good of this.$store.state.basket){
+                this.goods.push(good)
+            }
+            if(!this.$store.state.basket[0]) this.pay = false
             if(this.goods.length == 0){
                 this.$router.replace({name: 'purchese'})
             }
@@ -45,12 +76,27 @@ export default {
 .basket{
     display: flex;
     flex-direction: row;
-    max-width: 850px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
     flex-wrap: wrap;
+    background: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
 }
-.button_pay{
-    position: sticky;
+.button{
+    position: fixed;
     bottom: 0px;
     width: 100%;
+}
+.button_back{
+    width: 100%;
+    background: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    margin-bottom: 5px;
+}
+.button_pay{
+    width: 100%;
+    background: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
 }
 </style>

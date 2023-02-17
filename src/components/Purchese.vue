@@ -56,14 +56,17 @@ export default {
 
 <style>
 .purchase{
+    min-width: 100%;
+    max-width: 100%;
     display: flex;
-    flex-direction: row;
-    max-width: 850px;
+    justify-content: space-between;
     flex-wrap: wrap;
+
 }
 .button_pay{
-    position: sticky;
+    position: fixed;
     bottom: 0px;
+    left: 0;
     width: 100%;
 }
 </style>
