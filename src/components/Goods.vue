@@ -1,13 +1,19 @@
 <template>
     <div class="main">
-        <router-link :to="'/product/'+good.id">
-            <div class="good">
+        <div class="good">
+            <router-link :to="'/product/'+good.id">
                 <div class="name" >{{ good.name }}</div>
                 <div class="img" ><img :src="good.img[0].src" alt=""></div>
                 <div class="info" >{{ good.info }}</div>
-                <div class="price" >{{ good.priice }}₽</div>
+            </router-link>
+            <div class="modification" v-if="good.modification">
+                <select v-model="selected">
+                    <option disabled value="">Выберите один из вариантов</option>
+                    <option v-for="modification in good.modification" :key="modification.id"> {{ modification.total }}</option>
+                </select>
             </div>
-        </router-link>
+            <div class="price" >{{ good.priice }}₽</div>
+        </div>
         <AddDelButton
         @addGood="addGood"
         @delGood="delGood"
@@ -26,6 +32,7 @@ export default {
     data(){
         return {
             tg: window.Telegram.WebApp,
+            selected: ''
         }
     },
     props: {
@@ -36,14 +43,15 @@ export default {
         isBasket:{
             type: Boolean,
             required: true,
-        }
+        },
+
     },
     methods: {
         onClose(){
             this.tg.close()
         },
         addGood(){
-            this.$emit('addGood', this.good)
+            this.$emit('addGood', this.good, this.selected)
         },
         delGood(){
             this.$emit('delGood', this.good)
@@ -65,7 +73,6 @@ export default {
     max-height: 600px;
     width: 100%;
     cursor: pointer;
-    margin: 3px;
 }
 .name{
     width: 100%;
@@ -79,6 +86,12 @@ export default {
     margin-bottom: 10px;
 }
 .info{
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+    color: var(--tg-theme-text-color);
+}
+.modification{
     width: 100%;
     height: 100%;
     margin-bottom: 10px;

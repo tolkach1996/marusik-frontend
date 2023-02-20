@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <div  class="button_add">
-            <button class="button_add__basket" @click="addGood"  v-if="this.good.countBasket == 0">Добавить в корзину</button>
+            <button class="button_add__basket" @click="addGood"  v-if="this.good.countBasket == 0">В корзину</button>
             <div class="button_add__basket" v-else>
                 <div class="button_add_basket__count">
                     <button @click="delGood">-</button>
@@ -38,10 +38,11 @@ export default {
 
 <style scoped>
 .main{
-    background-color: #f9f9f9;
+    background-color: var(--tg-theme-button-color);
     border-radius: 10px;
     min-width: 100%;
     max-width: 100%;
+    margin-bottom: 5px;
 }
 button{
     background: var(--tg-theme-button-color);
@@ -59,7 +60,6 @@ button{
     color: var(--tg-theme-button-text-color);
 }
 .button_add__basket{
-    height: 60px;
     width: 100%;
     display: flex;
     justify-content: space-around;

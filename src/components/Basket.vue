@@ -1,4 +1,5 @@
 <template>
+    <div class="main">
     <div class="basket">
         <GoodsBasket
             v-for="good in goods"
@@ -8,25 +9,24 @@
             @delGood="delGoods"
             @showGoodInfo="showGoodInfo"
         />
-        <div class="button">
-            <router-link to="/">
-                <button class="button_back">Назад</button>
-            </router-link>
-            <button class="button_pay" @click="onClose">Оформить заказ</button>
-        </div>
-
-
-
-
+    </div>
+    <div class="button">
+        <ButtonBack/>
+        <!--<router-link to="/">
+            <button class="button_back">Назад</button>
+        </router-link>-->
+        <button class="button_pay" @click="onClose">Оформить заказ</button>
+    </div>
     </div>
 </template>
 
 <script>
+import ButtonBack from './ButtonBack.vue'
 import GoodsBasket from './GoodsBasket.vue'
 import Goods from './Goods.vue'
 
 export default {
-    components:{Goods, GoodsBasket},
+    components:{Goods, GoodsBasket,ButtonBack},
     data(){
         return{
             goods: [],
@@ -73,20 +73,26 @@ export default {
 </script>
 
 <style scoped>
+.main{
+    flex-wrap: wrap;
+    min-height: 100%;
+}
 .basket{
+    width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: row;
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 100%;
     flex-wrap: wrap;
     background: var(--tg-theme-bg-color);
     color: var(--tg-theme-text-color);
 }
 .button{
-    position: fixed;
-    bottom: 0px;
     width: 100%;
+    position: sticky;
+    left: 0px;
+    bottom: 0px;
+    background: var((--tg-theme-bg-color));
+    color: var(--tg-theme-button-text-color);
 }
 .button_back{
     width: 100%;
@@ -98,5 +104,6 @@ export default {
     width: 100%;
     background: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color);
+    margin-top: 5px;
 }
 </style>

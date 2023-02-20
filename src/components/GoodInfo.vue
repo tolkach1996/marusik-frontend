@@ -20,18 +20,17 @@
                 @delGood="delGood"
                 :good="good"
                 />
-            <router-link to="/">
-                <button class="button_back">Назад</button>
-            </router-link>
+            <ButtonBack/>
         </div>
     </div>
 </template>
 
 <script>
+import ButtonBack from './ButtonBack.vue'
 import AddDelButton from './AddDelButton.vue'
 
 export default {
-    components: {AddDelButton},
+    components: {AddDelButton,ButtonBack},
     methods: {
         addGood(){
             if(this.$store.state.basket.find(item => item.id == this.good.id)){
@@ -112,11 +111,11 @@ img{
     width: 100%;
     position: sticky;
     bottom: 0px;
-    background: var(--tg-theme-button-color);
+    background: var((--tg-theme-bg-color));
     color: var(--tg-theme-button-text-color);
+    border-radius: 10px;
 }
 .button_back{
-    margin-top: 5px;
     width: 100%;
     background: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color);
@@ -124,5 +123,6 @@ img{
 button{
     background: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color);
+    border-radius: 10px;
 }
 </style>

@@ -1,7 +1,12 @@
 <template>
     <div class="main">
-        <router-link :to="'/product/'+good.id">
-        <div class="main_content">
+        <ModForBasket
+            v-for="mod in good.modification"
+            :key="mod.id"
+            :good="good"
+        />
+        <!--<router-link :to="'/product/'+good.id">
+        <div class="main_content" >
             <div class="img">
                 <img :src="good.img[0].src" alt="">
             </div>
@@ -9,6 +14,7 @@
                 <div class="content_price">{{ good.priice }}₽</div>
                 <div class="content_name"> <b> {{ good.name }}</b></div>
                 <div class="content_name">{{ good.info }}</div>
+                <div class="content_name">Размер: {{ good.modification }}</div>
             </div>
         </div>
         </router-link>
@@ -16,17 +22,17 @@
         @addGood="addGood"
         @delGood="delGood"
         :good="good"
-        />
+        />-->
     </div>
 </template>
 
 <script>
-
+import ModForBasket from './ModForBasket.vue'
 import GoodInfo from './GoodInfo.vue'
 import AddDelButton from './AddDelButton.vue'
 
 export default {
-    components:{AddDelButton,GoodInfo},
+    components:{AddDelButton,GoodInfo,ModForBasket},
     data(){
         return {
             tg: window.Telegram.WebApp,
@@ -60,8 +66,7 @@ export default {
 
 <style scoped>
 .main{
-    width: 375px;
-    margin-top: 10px;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
