@@ -1,28 +1,21 @@
 <template>
-    <div class="main">
-        <ModForBasket
-            v-for="mod in good.modification"
-            :key="mod.id"
-            :good="good"
-        />
-        <!--<router-link :to="'/product/'+good.id">
-        <div class="main_content" >
-            <div class="img">
-                <img :src="good.img[0].src" alt="">
+    <div class="main" v-if="good.modification">
+        <ModForBasket v-for="mod in good.modification" :key="mod.id" :good="good" :mod="mod" />
+    </div>
+    <div class="main" v-else="!good.modification">
+        <router-link :to="'/product/' + good.id">
+            <div class="main_content">
+                <div class="img">
+                    <img :src="good.img[0].src" alt="">
+                </div>
+                <div class="content">
+                    <div class="content_price">{{ good.priice }}₽</div>
+                    <div class="content_name"> <b> {{ good.name }}</b></div>
+                    <div class="content_name">{{ good.info }}</div>
+                </div>
             </div>
-            <div class="content">
-                <div class="content_price">{{ good.priice }}₽</div>
-                <div class="content_name"> <b> {{ good.name }}</b></div>
-                <div class="content_name">{{ good.info }}</div>
-                <div class="content_name">Размер: {{ good.modification }}</div>
-            </div>
-        </div>
         </router-link>
-        <AddDelButton
-        @addGood="addGood"
-        @delGood="delGood"
-        :good="good"
-        />-->
+        <AddDelButton @addGood="addGood" @delGood="delGood" :good="good" />
     </div>
 </template>
 
@@ -32,32 +25,32 @@ import GoodInfo from './GoodInfo.vue'
 import AddDelButton from './AddDelButton.vue'
 
 export default {
-    components:{AddDelButton,GoodInfo,ModForBasket},
-    data(){
+    components: { AddDelButton, GoodInfo, ModForBasket },
+    data() {
         return {
             tg: window.Telegram.WebApp,
         }
     },
     props: {
         good: {
-            type: Array,
+            type: Object,
             required: true,
         },
-        isBasket:{
+        isBasket: {
             type: Boolean,
             required: true,
         }
     },
     methods: {
-        addGood(){
+        addGood() {
             this.$emit('addGood', this.good)
         },
-        delGood(){
+        delGood() {
             this.$emit('delGood', this.good)
         },
-        goodInfo(){
+        goodInfo() {
             this.$store.state.goodForInfo = this.good
-            this.$router.replace({name: 'info'})
+            this.$router.replace({ name: 'info' })
         }
     }
 }
@@ -65,18 +58,20 @@ export default {
 </script>
 
 <style scoped>
-.main{
+.main {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
-.main_content{
+
+.main_content {
     width: 100%;
     height: 100%;
     display: flex;
 
 }
-.content{
+
+.content {
     width: 100%;
     height: 100%;
     display: flex;
@@ -84,19 +79,20 @@ export default {
     text-align: left;
     color: var(--tg-theme-text-color);
 }
-.img{
+
+.img {
     min-width: 120px;
     min-height: 100%;
     max-width: 120px;
     max-height: 100%;
     margin-right: 20px;
 }
-img{
+
+img {
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
 }
-
 </style>
 
 <!--
