@@ -6,11 +6,6 @@
                 <div class="img"><img :src="good.img[0].src" alt=""></div>
                 <div class="info">{{ good.info }}</div>
             </router-link>
-            <ul class="modification" v-if="good.modification">
-                <li class="modification__li" :class="{ 'modification__li--active': selected == mod.id }"
-                    v-for="mod in good.modification" @click="() => active(mod.id)">{{ mod.total }}
-                </li>
-            </ul>
             <div class="price">{{ good.priice }}₽</div>
         </div>
         <AddDelButton @addGood="addGood" @delGood="delGood" :isBasket="isBasket" :good="good" :selected="selected" />
@@ -79,7 +74,23 @@ export default {
             }
         },
         delGood() {
-            this.$emit('delGood', this.good)
+            const goodInBasket = this.$store.state.basket.find(item => item.id == this.good.id);
+            if (this.good.modification) {
+                let sum = 0;
+                for (let item of goodInBasket.modification) {
+                    if (item.id == this.selected) {
+                        item.count -= 1;
+                    }
+                    sum += item.count
+                }
+                if (sum == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== this.good.id)
+                if (!this.$store.state.basket[0]) this.pay = false
+            }
+            else {
+                this.good.countBasket -= 1
+                if (this.good.countBasket == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== this.good.id)
+                if (!this.$store.state.basket[0]) this.pay = false
+            }
         },
         active(id) {
             this.selected = id;

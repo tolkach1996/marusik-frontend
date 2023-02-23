@@ -15,7 +15,7 @@
                 </div>
             </div>
         </router-link>
-        <AddDelButton @addGood="addGood" @delGood="delGood" :good="good" />
+        <AddDelButton @addGood="addGood" @delGood="delGood" :good="good" :selected="selected" />
     </div>
 </template>
 
@@ -38,15 +38,66 @@ export default {
         },
         isBasket: {
             type: Boolean,
-            required: true,
         }
     },
     methods: {
         addGood() {
-            this.$emit('addGood', this.good)
+            const goodInBasket = this.$store.state.basket.find(item => item.id == this.good.id);
+            if (this.good.modification) {
+                if (goodInBasket) {
+                    for (let item of goodInBasket.modification) {
+                        if (item.id == this.mod.id) {
+                            item.count += 1;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    for (let item of this.good.modification) {
+                        if (item.id == this.selected) {
+                            item.count += 1;
+                            break;
+                        }
+                    }
+                    this.$store.state.basket.push(this.good);
+                }
+            }
+            else {
+                if (goodInBasket) {
+                    goodInBasket.countBasket += 1;
+                }
+                else {
+                    this.good.countBasket += 1
+                    this.$store.state.basket.push(this.good)
+                }
+            }
         },
         delGood() {
-            this.$emit('delGood', this.good)
+            const goodInBasket = this.$store.state.basket.find(item => item.id == this.good.id);
+            if (this.good.modification) {
+                let sum = 0;
+                for (let item of goodInBasket.modification) {
+                    if (item.id == this.mod.id) {
+                        item.count -= 1;
+                    }
+                    sum += item.count
+                }
+                if (sum == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== this.good.id)
+                if (!this.$store.state.basket[0]) {
+                    this.pay = false
+                    this.$router.push({ name: 'purchese' })
+                }
+            }
+            else {
+                this.good.countBasket -= 1
+                console.log(this.$store.state.basket)
+                if (this.good.countBasket == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== this.good.id)
+                console.log(this.$store.state.basket)
+                if (!this.$store.state.basket[0]) {
+                    this.pay = false
+                    this.$router.push({ name: 'purchese' })
+                }
+            }
         },
         goodInfo() {
             this.$store.state.goodForInfo = this.good

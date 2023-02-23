@@ -36,25 +36,22 @@ export default {
         addGood() {
             const goodInBasket = this.$store.state.basket.find(item => item.id == this.good.id);
             if (this.good.modification) {
-                if (this.selected) {
-                    if (goodInBasket) {
-                        for (let item of goodInBasket.modification) {
-                            if (item.id == this.selected) {
-                                item.count += 1;
-                                break;
-                            }
+                if (goodInBasket) {
+                    for (let item of goodInBasket.modification) {
+                        if (item.id == this.mod.id) {
+                            item.count += 1;
+                            break;
                         }
                     }
-                    else {
-                        for (let item of this.good.modification) {
-                            if (item.id == this.selected) {
-                                item.count += 1;
-                                break;
-                            }
+                }
+                else {
+                    for (let item of this.good.modification) {
+                        if (item.id == this.selected) {
+                            item.count += 1;
+                            break;
                         }
-                        this.$store.state.basket.push(this.good);
                     }
-                    this.pay = true
+                    this.$store.state.basket.push(this.good);
                 }
             }
             else {
@@ -65,7 +62,31 @@ export default {
                     this.good.countBasket += 1
                     this.$store.state.basket.push(this.good)
                 }
-                this.pay = true
+            }
+        },
+        delGood() {
+            const goodInBasket = this.$store.state.basket.find(item => item.id == this.good.id);
+            if (this.good.modification) {
+                let sum = 0;
+                for (let item of goodInBasket.modification) {
+                    if (item.id == this.mod.id) {
+                        item.count -= 1;
+                    }
+                    sum += item.count
+                }
+                if (sum == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== this.good.id)
+                if (!this.$store.state.basket[0]) {
+                    this.pay = false
+                    this.$router.push({ name: 'purchese' })
+                }
+            }
+            else {
+                this.good.countBasket -= 1
+                if (this.good.countBasket == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== this.good.id)
+                if (!this.$store.state.basket[0]) {
+                    this.pay = false
+                    this.$router.push({ name: 'purchese' })
+                }
             }
         }
     },

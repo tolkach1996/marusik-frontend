@@ -1,8 +1,13 @@
 <template>
     <div class="main">
-        <div class="button_add">
-            <button class="button_add__basket" @click="addGood" v-if="countBasket == 0">В
-                корзину</button>
+        <div class="button_add" v-if="selected">
+            <div class="button_add__basket" v-if="countBasket == 0">
+                <router-link class="button_add__basket" :to="'/product/' + good.id" v-if="good.modification">
+                    <button class="button_add__basket" @click="addGood" v-if="isGoodInfo">В корзину</button>
+                    <button class="button_add__basket" v-else>Подробнее о товаре</button>
+                </router-link>
+                <button class="button_add__basket" @click="addGood" v-else>В корзину</button>
+            </div>
             <div class="button_add__basket" v-else>
                 <div class="button_add_basket__count">
                     <button @click="delGood">-</button>
@@ -23,6 +28,9 @@ export default {
         },
         selected: {
             type: Number
+        },
+        isGoodInfo: {
+            type: Boolean
         }
     },
     computed: {
@@ -37,7 +45,7 @@ export default {
             else {
                 return this.good.countBasket;
             }
-        }
+        },
     },
     methods: {
         addGood() {
@@ -45,6 +53,9 @@ export default {
         },
         delGood() {
             this.$emit('delGood', this.good)
+        },
+        goInfo() {
+
         }
     }
 }

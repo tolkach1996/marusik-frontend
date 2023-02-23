@@ -1,8 +1,7 @@
 <template>
     <div class="main">
         <div class="basket">
-            <GoodsBasket v-for="good in goods" :good="good" :key="good.id" @addGood="addGoods" @delGood="delGoods"
-                @showGoodInfo="showGoodInfo" />
+            <GoodsBasket v-for="good in goods" :good="good" :key="good.id" @showGoodInfo="showGoodInfo" />
         </div>
         <div class="button">
             <ButtonBack />
@@ -20,7 +19,6 @@ export default {
     components: { Goods, GoodsBasket, ButtonBack },
     data() {
         return {
-            goods: [],
             isBasket: true,
         }
     },
@@ -28,36 +26,10 @@ export default {
         onClose() {
             this.tg.close()
         },
-        addGoods(good) {
-            if (this.$store.state.basket.find(item => item.id == good.id)) {
-                for (let item of this.$store.state.basket) {
-                    if (item.id == good.id) {
-                        item.countBasket += 1
-                    }
-                }
-            }
-            else {
-                good.countBasket += 1
-                this.$store.state.basket.push(good)
-            }
-            this.pay = true
-        },
-        delGoods(good) {
-            good.countBasket -= 1
-            if (good.countBasket == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== good.id)
-            this.goods = [];
-            for (let good of this.$store.state.basket) {
-                this.goods.push(good)
-            }
-            if (!this.$store.state.basket[0]) this.pay = false
-            if (this.goods.length == 0) {
-                this.$router.replace({ name: 'purchese' })
-            }
-        },
     },
-    mounted() {
-        for (let good of this.$store.state.basket) {
-            this.goods.push(good)
+    computed: {
+        goods() {
+            return this.$store.state.basket
         }
     }
 }
