@@ -1,12 +1,8 @@
 <template>
     <div class="main">
-        <div class="button_add" v-if="selected">
+        <div class="button_add" v-if="selected || !isGoodInfo">
             <div class="button_add__basket" v-if="countBasket == 0">
-                <router-link class="button_add__basket" :to="'/product/' + good.id" v-if="good.modification">
-                    <button class="button_add__basket" @click="addGood" v-if="isGoodInfo">В корзину</button>
-                    <button class="button_add__basket" v-else>Подробнее о товаре</button>
-                </router-link>
-                <button class="button_add__basket" @click="addGood" v-else>В корзину</button>
+                <button class="button_add__basket" @click="addGood">В корзину</button>
             </div>
             <div class="button_add__basket" v-else>
                 <div class="button_add_basket__count">
@@ -16,6 +12,10 @@
                 </div>
             </div>
         </div>
+
+        <router-link v-if="isGoodInfo" :to="`/product/${good.id}`">
+            <button class="button_add__basket">Подробнее</button>
+        </router-link>
     </div>
 </template>
 
@@ -30,7 +30,8 @@ export default {
             type: Number
         },
         isGoodInfo: {
-            type: Boolean
+            type: Boolean,
+            default: false
         }
     },
     computed: {

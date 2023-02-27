@@ -2,15 +2,6 @@
     <router-view></router-view>
 </template>
 
-<script>
-
-
-export default {
-}
-</script>
-
-
-
 <style>
 body, html {
     margin: 0px;

@@ -4,11 +4,10 @@
             <router-link :to="'/product/' + good.id">
                 <div class="name">{{ good.name }}</div>
                 <div class="img"><img :src="good.img[0].src" alt=""></div>
-                <div class="info">{{ good.info }}</div>
             </router-link>
             <div class="price">{{ good.priice }}₽</div>
         </div>
-        <AddDelButton @addGood="addGood" @delGood="delGood" :isBasket="isBasket" :good="good" :selected="selected" />
+        <AddDelButton @addGood="addGood" @delGood="delGood" :isBasket="isBasket" :good="good" :selected="selected" :isGoodInfo="good.modification?.length" />
     </div>
 </template>
 
@@ -26,12 +25,11 @@ export default {
     },
     props: {
         good: {
-            type: Array,
+            type: Object,
             required: true,
         },
         isBasket: {
-            type: Boolean,
-            required: true,
+            type: Boolean
         }
     },
     methods: {
@@ -102,16 +100,19 @@ export default {
 
 <style scoped>
 .main {
-    width: 48%;
+    width: calc(50% - 5px);
 }
 
 .good {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--tg-theme-button-color);
+    align-items: center;
     border-radius: 10px;
     max-height: 600px;
     width: 100%;
+    box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-bottom: 5px;
 }
 
 .name {
@@ -119,6 +120,7 @@ export default {
     height: 100%;
     margin-bottom: 10px;
     color: var(--tg-theme-text-color);
+    text-align: center;
 }
 
 .img {
@@ -172,6 +174,7 @@ export default {
     margin-bottom: 10px;
     font-weight: bold;
     color: var(--tg-theme-text-color);
+    text-align: center;
 }
 
 img {
@@ -180,58 +183,3 @@ img {
     object-fit: cover;
 }
 </style>
-
-<!--<style lang="scss" scoped>
-<style scoped>
-.main{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
-
-.purchase{
-    max-width: 40%;
-    min-height: 70%;
-    margin: 5px;
-    border: 1px solid var(--tg-theme-button-color);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    flex: 1 1 auto;
-    cursor: pointer;
-    border: 1px solid black;
-}
-
-.purchase div{
-    margin-top: 15px;
-    text-align: center;
-    align-items: center;
-}
-
-.button_pay{
-    position: sticky;
-    bottom: 0px;
-}
-
-.price{
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-button{
-    background: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
-    outline: none;
-    width: 100%;
-}
-
-.img{
-    max-height: 50%;
-}
-img{
-    max-width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-</style>-->

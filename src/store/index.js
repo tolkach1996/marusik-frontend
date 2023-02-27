@@ -5,7 +5,8 @@ export default createStore({
     state: {
         basket: [],
         goodForInfo: {},
-        goods: goodsData
+        goods: goodsData,
+        tg: window.Telegram.WebApp,
     },
     getters: {
         getProduct: (state) => (id) => {
@@ -13,6 +14,14 @@ export default createStore({
         }
     },
     mutations: {},
-    actions: {},
+    actions: {
+        onToggle({ state }) {
+            if(state.tg.MainButton.isVisible) {
+                state.tg.MainButton.hide();
+            } else {
+                state.tg.MainButton.show();
+            }
+        }
+    },
     modules: {}
 })

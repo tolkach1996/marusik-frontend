@@ -16,8 +16,7 @@
             <div class="price"><b> Цена: </b>{{ good.priice }}₽</div>
         </div>
         <div class="button">
-            <AddDelButton @addGood="addGood" @delGood="delGood" :isBasket="isBasket" :good="good" :selected="selected"
-                :isGoodInfo="isGoodInfo" />
+            <AddDelButton @addGood="addGood" @delGood="delGood" :good="good" :selected="selected" />
             <ButtonBack />
         </div>
     </div>
@@ -26,13 +25,13 @@
 <script>
 import ButtonBack from './ButtonBack.vue'
 import AddDelButton from './AddDelButton.vue'
+import { mapState } from 'vuex';
 
 export default {
     components: { AddDelButton, ButtonBack },
     data() {
         return {
-            selected: null,
-            isGoodInfo: true
+            selected: null
         }
     },
     methods: {
@@ -100,11 +99,9 @@ export default {
     computed: {
         good() {
             return this.$store.getters.getProduct(this.$route.params.id)
-        }
-    },
-    /*mounted(){
-        this.good = this.$store.state.goodForInfo
-    }*/
+        },
+        ...mapState(['tg'])
+    }
 }
 </script>
 
