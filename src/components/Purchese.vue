@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="block__fixed">
-        <button class="button_pay" @click="showMainButton">Корзина</button>
+        <button class="button_pay" v-if="ispay" @click="showMainButton">Корзина</button>
     </div>
     
 </template>
@@ -14,7 +14,7 @@
 <script>
 import Goods from './Goods.vue';
 import { goodsData } from '../data/index';
-import { mapActions, mapState } from 'vuex';
+import { tg, onToggle } from '../modules/tg';
 
 export default {
     components: { Goods },
@@ -25,7 +25,6 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['onToggle']),
         delGood(good) {
             good.countBasket -= 1
             if (good.countBasket == 0) this.$store.state.basket = this.$store.state.basket.filter(item => item.id !== good.id)
@@ -33,7 +32,7 @@ export default {
         },
         showMainButton() {
             try {
-                this.onToggle();
+                onToggle();
             } catch(e) {
                 console.error(e);
                 this.error = e;
@@ -43,12 +42,11 @@ export default {
     computed: {
         ispay() {
             return this.$store.state.basket.length > 0;
-        },
-        ...mapState(['tg'])
+        }
     },
     mounted() {
-        this.tg.expand();
-        this.tg.enableClosingConfirmation();
+        tg.expand();
+        tg.enableClosingConfirmation();
     }
 }
 </script>

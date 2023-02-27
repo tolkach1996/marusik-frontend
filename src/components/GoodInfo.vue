@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import ButtonBack from './ButtonBack.vue'
-import AddDelButton from './AddDelButton.vue'
-import { mapState } from 'vuex';
+import ButtonBack from './ButtonBack.vue';
+import AddDelButton from './AddDelButton.vue';
+import { tg } from '../modules/tg';
 
 export default {
     components: { AddDelButton, ButtonBack },
@@ -99,8 +99,10 @@ export default {
     computed: {
         good() {
             return this.$store.getters.getProduct(this.$route.params.id)
-        },
-        ...mapState(['tg'])
+        }
+    },
+    mounted() {
+        tg.BackButton.show();
     }
 }
 </script>
